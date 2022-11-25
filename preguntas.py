@@ -11,7 +11,19 @@ Utilice el archivo `data.csv` para resolver las preguntas.
 
 
 """
+# Lectura de los datos
+from re import L
 
+
+with open("./data.csv", "r") as carpeta:
+    datos = carpeta.readlines()
+
+# Limpieza de los datos
+
+datoscsv = [line.replace("\n", "") for line in datos]
+
+# Conversión de los datos a listas
+conversionDatos = [line.split("\t") for line in datoscsv]
 
 def pregunta_01():
     """
@@ -21,7 +33,10 @@ def pregunta_01():
     214
 
     """
-    return
+    sumacolumna2 = 0
+    for dato in conversionDatos:
+        sumacolumna2 += int(dato[1])
+    return sumacolumna2
 
 
 def pregunta_02():
@@ -39,7 +54,19 @@ def pregunta_02():
     ]
 
     """
-    return
+    lista1 = []
+    lista2 = []
+    for dato in conversionDatos:
+        l = dato [0]
+        if l in lista1:
+            x = lista1.index(l)
+            lista2[x] += 1
+        else:
+            lista1.append(l)
+            lista2.append(1)
+
+    listafinal = list(zip(lista1, lista2))
+    return sorted(listafinal, key=lambda tup: tup[0])
 
 
 def pregunta_03():
@@ -57,7 +84,19 @@ def pregunta_03():
     ]
 
     """
-    return
+    lista1 = []
+    lista2 = []
+    for dato in conversionDatos:
+        l = dato[0]
+        if l in lista1:
+            x = lista1.index(l)
+            lista2[x] += int(dato[1])
+        else:
+            lista1.append(l)
+            lista2.append(int(dato[1]))
+
+    listafinal = list(zip(lista1, lista2))
+    return sorted(listafinal, key=lambda tup: tup[0])
 
 
 def pregunta_04():
@@ -82,7 +121,19 @@ def pregunta_04():
     ]
 
     """
-    return
+    lista1 = []
+    lista2 = []
+    for dato in conversionDatos:
+        fecha = dato[2].split('-')
+        month = fecha[1]
+        if month in lista1:
+            x = lista1.index(month)
+            lista2[x] += 1
+        else:
+            lista1.append(month)
+            lista2.append(1)
+    listafinal = list(zip(lista1, lista2))
+    return sorted(listafinal, key=lambda tup: tup[0])
 
 
 def pregunta_05():
@@ -100,7 +151,25 @@ def pregunta_05():
     ]
 
     """
-    return
+    lista1 = []
+    lista3 = []
+    listamaximo = []
+    listaminimo = []
+
+    for dato in conversionDatos:
+        l = dato[0]
+        if l in lista1:
+            x = lista1.index(l)
+            lista3[x].append(int(dato[1]))
+        else:
+            lista1.append(l)
+            lista3.append([int(dato[1])])
+    for y in lista3:
+        listamaximo.append(max(y))
+        listaminimo.append(min(y))
+
+    listafinal = list(zip(lista1, listamaximo, listaminimo))
+    return sorted(listafinal, key=lambda tup: tup[0])
 
 
 def pregunta_06():
@@ -125,7 +194,34 @@ def pregunta_06():
     ]
 
     """
-    return
+    lista1 = []
+    lista3 = []
+    listamaximo = []
+    listaminimo = []
+
+    for dato in conversionDatos:
+        z = []
+        for sub in dato[4].split(','):
+
+            if ':' in sub:
+                z.append(map(str.strip, sub.split(':', 1)))
+
+        z = dict(z)
+        for k in z.keys():
+            l = k
+            if l in lista1:
+                x = lista1.index(l)
+                lista3[x].append(int(z[k]))
+            else:
+                lista1.append(l)
+                lista3.append([int(z[k])])
+
+    for y in lista3:
+        listamaximo.append(max(y))
+        listaminimo.append(min(y))
+
+    listafinal = list(zip(lista1, listaminimo, listamaximo))
+    return sorted(listafinal, key=lambda tup: tup[0])
 
 
 def pregunta_07():
@@ -149,7 +245,19 @@ def pregunta_07():
     ]
 
     """
-    return
+    lista1 = []
+    lista2 = []
+    for dato in conversionDatos:
+        numero = int(dato[1])
+        if numero in lista1:
+            x = lista1.index(numero)
+            lista2[x].append(dato[0])
+        else:
+            lista1.append(numero)
+            lista2.append([dato[0]])
+
+    listafinal = list(zip(lista1, lista2))
+    return sorted(listafinal, key=lambda tup: tup[0])
 
 
 def pregunta_08():
@@ -174,7 +282,23 @@ def pregunta_08():
     ]
 
     """
-    return
+    lista1 = []
+    lista2 = []
+    for dato in conversionDatos:
+        numero = int(dato[1])
+        if numero in lista1:
+            x = lista1.index(numero)
+            if not dato[0] in lista2[x]:
+                lista2[x].append(dato[0])
+        else:
+            lista1.append(numero)
+            lista2.append([dato[0]])
+
+    for l in lista2:
+        l = l.sort()
+
+    listafinal = list(zip(lista1, lista2))
+    return sorted(listafinal, key=lambda tup: tup[0])
 
 
 def pregunta_09():
@@ -197,7 +321,31 @@ def pregunta_09():
     }
 
     """
-    return
+    lista1 = []
+    lista3 = []
+    lista2 = []
+
+    for dato in conversionDatos:
+        z = []
+        for sub in dato[4].split(','):
+
+            if ':' in sub:
+                z.append(map(str.strip, sub.split(':', 1)))
+
+        z = dict(z)
+        for k in z.keys():
+            letra = k
+            if letra in lista1:
+                x = lista1.index(letra)
+                lista3[x].append(int(z[k]))
+            else:
+                lista1.append(letra)
+                lista3.append([int(z[k])])
+
+    for l in lista3:
+        lista2.append(len(l))
+    listafinal = dict(zip(lista1, lista2))
+    return listafinal
 
 
 def pregunta_10():
@@ -218,7 +366,29 @@ def pregunta_10():
 
 
     """
-    return
+    lista1 = []
+    lista4 = []
+    lista5 = []
+
+    for dato in conversionDatos:
+        z = []
+        lista1.append(dato[0])
+
+        listafinal = dato[3].split(',')
+
+        lista4.append(len(listafinal))
+
+        for sub in dato[4].split(','):
+
+            if ':' in sub:
+                z.append(map(str.strip, sub.split(':', 1)))
+
+        z = dict(z)
+
+        lista5.append(len(z))
+
+    listafinal = list(zip(lista1, lista4, lista5))
+    return listafinal
 
 
 def pregunta_11():
@@ -239,8 +409,16 @@ def pregunta_11():
 
 
     """
-    return
+    diccionario = {}
 
+    for dato in conversionDatos:
+        x = int(dato[1])
+        for letra in dato[3].split(','):
+            if letra in diccionario:
+                diccionario[letra] += x
+            else:
+                diccionario[letra] = x
+    return diccionario
 
 def pregunta_12():
     """
@@ -257,4 +435,24 @@ def pregunta_12():
     }
 
     """
-    return
+    diccionario = {}
+
+    for dato in conversionDatos:
+        z = []
+        letra = dato[0]
+
+        for sub in dato[4].split(','):
+
+            if ':' in sub:
+                z.append(map(str.strip, sub.split(':', 1)))
+
+        z = dict(z)
+        z = dict([a, int(x)] for a, x in z.items())
+        valor = sum(z.values())
+        if letra in diccionario:
+            diccionario[letra] += valor
+        else:
+            diccionario[letra] = valor
+
+    return diccionario
+
